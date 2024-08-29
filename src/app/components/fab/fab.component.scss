@@ -1,0 +1,11 @@
+.hidden {
+  transform: translateY(50px);
+  opacity: 0;
+  transition: transform 0.2s ease-in, opacity 0.2s ease-in; /* Transition rapide pour disparaître */
+}
+
+.visible {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out; /* Transition plus lente pour apparaître */
+}

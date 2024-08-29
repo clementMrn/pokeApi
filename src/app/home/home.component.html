@@ -1,0 +1,36 @@
+<div class="mainContainer">
+  <div class="top-section">
+    <p class="main-title">What Pokémon <br> are you looking for?</p>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search Pokémon, Move, Ability, etc.">
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="button-list">
+      <div *ngFor="let ctaButton of ctaButtonList" class="grid-item-container" [ngStyle]="{'background': ctaButton.backgroundColor}">
+        <div class="grid-item" [routerLink]="['/' + ctaButton.routing]"  routerLinkActive="active">
+          <p class="cta-text">{{ctaButton.name}}</p>
+          <img src="../assets/pokeball-v2.svg" class="pokeball-img-2" alt="Pokeball icon">
+        </div>
+        <div class="shadow" [ngStyle]="{'background': ctaButton.shadowColor}"></div>
+      </div>
+    </div>
+    <img src="../assets/pokeball-v2.svg" class="pokeball-img" alt="Pokeball icon">
+  </div>
+  <div class="news">
+    <div class="title-and-cta">
+      <p>Pokémon News</p>
+      <button>View All</button>
+    </div>
+    <div class="news-list">
+      <div *ngFor="let article of articleList" class="news-item-container">
+        <div class="title-date-container">
+          <p class="article-title">{{article.title}}</p>
+          <p class="article-date">{{article.date}}</p>
+        </div>
+        <div class="image-container">
+          <div [ngStyle]="{'background-image': 'url(' + article.image + ')'}" class="article-image"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,69 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: circularStd-Black;
+  src: url(assets/fonts/CircularStd-Black.ttf) format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: circularStd-BlackItalic;
+  src: url(assets/fonts/CircularStd-BlackItalic.ttf) format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: circularStd-Bold;
+  src: url(assets/fonts/CircularStd-Bold.ttf) format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: circularStd-BoldItalic;
+  src: url(assets/fonts/CircularStd-BoldItalic.ttf) format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: circularStd-Book;
+  src: url(assets/fonts/CircularStd-Book.ttf) format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: circularStd-BookItalic;
+  src: url(assets/fonts/CircularStd-BookItalic.ttf) format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: circularStd-Medium;
+  src: url(assets/fonts/CircularStd-Medium.ttf) format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: circularStd-MediumItalic;
+  src: url(assets/fonts/CircularStd-MediumItalic.ttf) format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: circularStd-Light;
+  src: url(assets/fonts/CircularStd-Light.otf) format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+

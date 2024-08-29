@@ -1,0 +1,50 @@
+<ng-container *ngIf="!isLoading; else loading">
+  <div class="mainContainer"  [ngStyle]="{'filter': overlay ? 'brightness(50%)' : 'brightness(100%)'}">
+    <div class="content">
+      <div class="top-section">
+        <p class="main-title">Pokedex</p>
+        <img src="../assets/pokeball-v2.svg" class="pokeball-img" alt="Pokeball icon">
+      </div>
+
+      <div *ngIf="pokemonList && pokemonList.length > 0; else noData" class="pokedex"  [ngStyle]="{'pointer-events': overlay ? 'none' : 'auto'}">
+        <div *ngFor="let pokemon of pokemonList"
+             [ngStyle]="{'background': findColor(pokemon)?.mainColor || '#b7b7b7'}"
+             style="width: 45%; margin-bottom: 15px; height: 120px; border-radius: 15px; padding: 25px 15px; box-sizing: border-box; position: relative; overflow: hidden">
+          <div *ngIf="pokemon; else missingPokemon">
+            <p style="margin: 0;">{{ pokemon.name }}</p>
+            <div *ngFor="let type of pokemon.types" style="margin-bottom: 5px;">
+              <span [ngStyle]="{'background': findColor(pokemon)?.lightColor || '#D3D3D3'}" style="font-size: 0.7rem; display: inline-block; border-radius: 30px; padding: 2px 10px;">
+                {{ type.type.name }}
+              </span>
+            </div>
+            <p style="position: absolute; top:10px; right: 10px; margin: 0" [ngStyle]="{'color': findColor(pokemon)?.darkColor || '#929292'}">
+              #{{ pokemon.id < 1000 ? ('000' + pokemon.id).slice(-3) : pokemon.id }}
+            </p>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemon.id}}.png"
+                 style="width:50%; height:60%; position: absolute; right: 10px; bottom: 10px; object-fit: fill; z-index: 2"
+                 alt="{{ pokemon.name }}">
+          </div>
+
+          <ng-template #missingPokemon>
+            <p style="margin: 0;">?</p>
+          </ng-template>
+
+          <img src="../assets/pokeball-v2.svg" style="opacity: 20%; position: absolute; bottom: -20px; right: -10px" alt="Pokeball icon">
+        </div>
+      </div>
+    </div>
+  </div>
+   <app-fab (toggleFABEmiter)="toggleOverlay()" ></app-fab>
+</ng-container>
+
+<ng-template #loading>
+  <div>
+    <p>Chargement des pokemons</p>
+  </div>
+</ng-template>
+
+<ng-template #noData>
+  <div>
+    <p>Aucun Pokémon disponible</p>
+  </div>
+</ng-template>
