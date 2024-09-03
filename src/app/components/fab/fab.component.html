@@ -1,16 +1,63 @@
-<div style="display: flex; flex-direction: column-reverse; align-items: end; position: absolute; right: 30px; bottom: 30px; z-index: 40;">
-  <button mat-fab (click)="toggleFAB()" style="background-color: #6c79db; color: white; z-index: 40;">
+<div class="fabMainContainer">
+  <button mat-fab (click)="toggleFAB()" class="fab-button">
     <mat-icon>menu</mat-icon>
   </button>
-  <div style="display: flex; align-items: flex-end; flex-direction: column-reverse;">
+  <div class="fab-buttons-container" *ngIf="!getSearchAction">
     <button
       *ngFor="let buttonsFab of buttonFabs; let i = index"
       [ngClass]="{'hidden': !isFABVisible, 'visible': isFABVisible}"
       [ngStyle]="{'transition-delay': isFABVisible ? (i * 0.4) + 's' : '0s'}"
-    style="display: flex; flex-direction: row; align-items: center; padding: 0px 20px; border-radius: 40px; margin-bottom: 10px; background-color: white; border: none; cursor: pointer"
+      (click)="functionAction(buttonsFab.action)"
+      class="fab-action-button"
     >
-    <p style="margin-right: 10px">{{buttonsFab.text}}</p>
-    <mat-icon style="color: #6c79db">{{buttonsFab.favIcon}}</mat-icon>
+      <p class="fab-button-text">{{buttonsFab.text}}</p>
+      <mat-icon *ngIf="buttonsFab.favIcon" class="fab-icon">{{buttonsFab.favIcon}}</mat-icon>
+      <div *ngIf="buttonsFab.img" class="fab-img" [ngStyle]="{'background-image': 'url(' + buttonsFab.img + ')'}"></div>
     </button>
   </div>
 </div>
+
+<ng-container *ngIf="getAllGenAction">
+  <div class="gen-filter-container">
+    <div class="gen-filter-bar" (click)="toggleGenerationFilter()"></div>
+    <p class="gen-filter-title">Generation</p>
+    <div class="gen-filter-content">
+      <div *ngFor="let generation of (allGen | keyvalue)" (click)="selectGeneration(generation.key)" class="gen-card">
+        <img src="../assets/pokeball-v2.svg" class="pokeball-img-fab" alt="Pokeball icon">
+        <p class="gen-card-title">{{generation.key}}</p>
+        <div class="img-container">
+          <img *ngFor="let id of (generation.value | slice:0:3)"
+               [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + id + '.png'"
+               [alt]="'Pokemon ' + id"
+               class="gen-pokemon-img">
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="getAllTypeAction">
+  <div class="gen-filter-container">
+    <div class="gen-filter-bar" (click)="toggleTypeFilter()"></div>
+    <p class="gen-filter-title">Type</p>
+    <div class="gen-filter-content">
+      <div *ngFor="let pokemonType of pokemonTypes" (click)="selectType(pokemonType.englishName)" class="type-card">
+        <img
+          [src]=pokemonType.image
+          [alt]="'type ' + pokemonType.name"
+          class="type-img">
+        <p class="type-card-title">{{pokemonType.name}}</p>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="getSearchAction">
+  <div style=" position: absolute; width: 100%; background-color: #FDFDFD; bottom: 0; left: 0; z-index: 30; border-radius: 20px 20px 0px 0px; overflow: hidden; font-family: circularStd-Medium; padding-bottom: 20px">
+    <div class="gen-filter-bar" style="height: 5px; background-color: #F5F5F5; width: 20%;  margin: 20px auto; border-radius: 20px;" (click)="toggleSearchFilter()"></div>
+    <div class="search-container">
+      <input type="text" class="search-input" (input)="onSearch($event)" placeholder="Search Pokémon, Move, Ability, etc.">
+      <span class="search-icon"><mat-icon>search</mat-icon></span>
+    </div>
+  </div>
+</ng-container>
