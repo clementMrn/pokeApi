@@ -7,7 +7,14 @@ export interface pokedexCardColor {
 
 export interface buttonFab {
   text: string;
-  favIcon: string;
+  favIcon?: string;
+  img?: string;
+  action: string;
+}
+
+export interface cardType {
+  text: string;
+  img: string;
 }
 
 export const pokeCardButtonConfig: pokedexCardColor[] = [
@@ -32,7 +39,7 @@ export const pokeCardButtonConfig: pokedexCardColor[] = [
   {
     type: 'electric',
     mainColor: "#FFCE4B",
-    darkColor: "#FBCD66",
+    darkColor: "#daab42",
     lightColor: "#FFE580",
   },
   {
@@ -118,18 +125,22 @@ export const pokeCardButtonConfig: pokedexCardColor[] = [
 export const buttonFabConfig: buttonFab[] = [
   {
     text: "Search",
-    favIcon: "search"
+    favIcon: "search",
+    action: "search"
   },
   {
     text: "All Gen",
-    favIcon: "deleteFunction"
+    img: "../assets/poke-icon.png",
+    action: "getAllGen"
   },
   {
     text: "All Type",
-    favIcon: "deleteFunction"
+    img: "../assets/poke-icon.png",
+    action: "getAllType"
   },
   {
     text: "Favorite Pokemon",
-    favIcon: "favorite"
+    favIcon: "favorite",
+    action:'getFavorite'
   }
 ];

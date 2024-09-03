@@ -1,3 +1,146 @@
+.fabMainContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: end;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  z-index: 20;
+
+  .fab-button {
+    background-color: #6c79db;
+    color: white;
+    z-index: 40;
+  }
+
+  .fab-buttons-container {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column-reverse;
+
+    .fab-action-button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0px 20px;
+      border-radius: 40px;
+      margin-bottom: 10px;
+      background-color: white;
+      border: none;
+      cursor: pointer;
+
+      .fab-button-text {
+        margin-right: 10px;
+      }
+
+      .fab-icon {
+        color: #6c79db;
+      }
+
+      .fab-img {
+        width: 25px;
+        height: 25px;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+
+.gen-filter-container {
+  position: absolute;
+  width: 100%;
+  height: 70vh;
+  background-color: #FDFDFD;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  border-radius: 20px 20px 0px 0px;
+  overflow: hidden;
+  font-family: circularStd-Medium;
+
+  .gen-filter-bar {
+    width: 20%;
+    height: 3px;
+    background-color: #ededed;
+    margin: 20px auto;
+    border-radius: 20px;
+  }
+
+  .gen-filter-title {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .gen-filter-content {
+    height: 80%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0px 20px;
+
+    .gen-card, .type-card {
+      background-color: white;
+      box-shadow: 0px 8px 15px rgba(48, 57, 67, 0.12);
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-bottom: 10px;
+
+      &.gen-card {
+        width: 48%;
+        aspect-ratio: 4/3;
+      }
+
+      &.type-card {
+        width: 30%;
+        aspect-ratio: 1/1;
+      }
+
+      .gen-card-title, .type-card-title {
+        text-align: center;
+      }
+
+      .type-img, .gen-pokemon-img {
+        width: 30%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      .img-container {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        z-index: 2;
+
+        img:nth-child(2) {
+          position: absolute;
+          scale: 1.2;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
+
+.pokeball-img-fab {
+  width: 60%;
+  aspect-ratio: 1/1;
+  position: absolute;
+  filter: brightness(98%);
+  bottom: -20px;
+  right: -5px;
+}
+
 .hidden {
   transform: translateY(50px);
   opacity: 0;
@@ -8,4 +151,29 @@
   transform: translateY(0);
   opacity: 1;
   transition: transform 0.5s ease-out, opacity 0.5s ease-out; /* Transition plus lente pour apparaître */
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+
+  .search-input {
+    width: 70%;
+    padding: 15px 15px 15px 40px;
+    border: none;
+    border-radius: 30px;
+    background-color: #F5F5F5;
+    font-size: 16px;
+  }
+
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    font-size: 18px;
+  }
 }

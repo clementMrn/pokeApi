@@ -13,3 +13,17 @@ export interface PokemonList {
   types: { type: { name: string } }[];
   sprites: { front_default: string };
 }
+
+export interface PokemonTypeImage {
+  id: number;
+  name: string;
+  image: string;
+  englishName: string;
+}
+
+export interface PokemonTypes {
+  name: string;
+  image: string;
+  englishName: string;
+}
+

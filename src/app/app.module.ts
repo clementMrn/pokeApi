@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FabComponent} from "./components/fab/fab.component";
+import {PokeIdPipe} from "./Pipe/pokeId.pipe";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import {FabComponent} from "./components/fab/fab.component";
     HomeComponent,
     PokedexComponent,
     FabComponent,
+    PokeIdPipe
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,8 @@ import {FabComponent} from "./components/fab/fab.component";
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
