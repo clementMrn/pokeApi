@@ -17,6 +17,11 @@ export interface cardType {
   img: string;
 }
 
+export interface buttonDetails {
+  text: string;
+  action: string;
+}
+
 export const pokeCardButtonConfig: pokedexCardColor[] = [
   {
     type: 'grass',
@@ -142,5 +147,24 @@ export const buttonFabConfig: buttonFab[] = [
     text: "Favorite Pokemon",
     favIcon: "favorite",
     action:'getFavorite'
+  }
+];
+
+export const buttonDetailsConfig: buttonDetails[] = [
+  {
+    text: "About",
+    action: "about"
+  },
+  {
+    text: "Base Stats",
+    action: "baseStats"
+  },
+  {
+    text: "Evolution",
+    action: "evolution"
+  },
+  {
+    text: "Moves",
+    action:'moves'
   }
 ];

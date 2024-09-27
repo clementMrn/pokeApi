@@ -12,6 +12,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FabComponent} from "./components/fab/fab.component";
 import {PokeIdPipe} from "./Pipe/pokeId.pipe";
 import {FormsModule} from "@angular/forms";
+import { PokeDetailsComponent } from './components/poke-details/poke-details.component';
+import { MeasurementPipe } from './Pipe/measurement.pipe';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BaseStatePipe } from './Pipe/base-state.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,10 @@ import {FormsModule} from "@angular/forms";
     HomeComponent,
     PokedexComponent,
     FabComponent,
-    PokeIdPipe
+    PokeIdPipe,
+    PokeDetailsComponent,
+    MeasurementPipe,
+    BaseStatePipe
   ],
   imports: [
     BrowserModule,
@@ -28,7 +35,8 @@ import {FormsModule} from "@angular/forms";
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

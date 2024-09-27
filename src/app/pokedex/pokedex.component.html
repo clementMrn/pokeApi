@@ -1,3 +1,5 @@
+
+
 <ng-container *ngIf="!isLoading; else loading">
   <div class="mainContainer" [ngClass]="{'overlay-active': overlay}">
     <div class="content">
@@ -6,10 +8,11 @@
         <img src="../assets/pokeball-v2.svg" class="pokeball-img" alt="Pokeball icon">
       </div>
 
-      <div *ngIf="pokemonList && pokemonList.length > 0; else noData" class="pokedex" [ngClass]="{'overlay-active': overlay}">
-        <div *ngFor="let pokemon of pokemonList"
+      <div *ngIf="pokemonService.pokemonList() && pokemonService.pokemonList().length > 0; else noData" class="pokedex" [ngClass]="{'overlay-active': overlay}">
+        <div *ngFor="let pokemon of pokemonService.pokemonList()"
              class="pokemon-card"
-             [ngStyle]="{'background-color': findColor(pokemon)?.mainColor || '#b7b7b7'}">
+             [ngStyle]="{'background-color': findColor(pokemon)?.mainColor || '#b7b7b7'}"
+        (click)="goDetails(pokemon)">
           <div *ngIf="pokemon; else missingPokemon">
             <p class="pokemon-name">{{ pokemon.name }}</p>
             <div *ngFor="let type of pokemon.types" class="pokemon-type">
@@ -35,6 +38,9 @@
   </div>
   <app-fab (toggleFABEmiter)="toggleOverlay()" (generationSelected)="filterPokemon($event)" (typeSelected)="filterType($event)"></app-fab>
 </ng-container>
+
+
+
 
 <ng-template #loading>
   <div>

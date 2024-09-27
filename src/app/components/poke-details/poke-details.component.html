@@ -1,0 +1,152 @@
+<div class='detail-main-container' [ngStyle]="{'background-color': colors.mainColor}">
+ 
+  <div class="square-top-left"></div>
+
+  <div class="top">
+    <div class="arrow-and-fav">
+      <p>flèche</p>
+      <p>fav</p>
+    </div>
+    <div class="name-and-id">
+      <p>{{pokemon?.name}}</p>
+      <p *ngIf="pokemon?.id as id">#{{ id | pokeid }}</p>
+    </div>
+    <div class="types">
+      <div class="type-list">
+       <p class="type-list-label"   [ngStyle]="{'background-color': colors.lightColor}"  *ngFor="let type of pokemon?.types">{{type.type.name}}</p>
+      </div>
+      <p>TODO ICI</p>
+    </div>
+    <img src="../assets/pokeball-v2.svg" class="pokeball-icon" alt="Pokeball icon">
+  </div>
+  <div class="bottom">
+    <img class="img-prev-poke"
+         [ngStyle]="{
+          'mask-image': 'url(' + 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' +  ((pokemon?.id ?? 1) - 1) + '.png' + ')',
+          'mask-size': 'cover',
+          'background-color': colors.darkColor
+         }" alt="{{ pokemon?.name }}">
+    <img class="img-curr-poke" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemon?.id}}.png"
+           alt="{{ pokemon?.name }}">
+
+    <img class="img-next-poke"
+         [ngStyle]="{
+          'mask-image': 'url(' + 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' +  ((pokemon?.id ?? 1) + 1) + '.png' + ')',
+          'mask-size': 'cover',
+          'background-color':  colors.darkColor,
+         }" alt="{{ pokemon?.name }}">
+
+    <div class="nav-tab-container">
+      <p class="tab-label"  *ngFor="let btnDetails of buttonDetails; let i = index" [ngClass]="{'selected': selectedIndex === i}" (click)="selectButton(i)">
+        {{btnDetails.text}}
+      </p>
+    </div>
+
+    <div *ngIf="selectedIndex ===  0" class="about-section">
+      <p class="flavor-text">{{flavorTextToDisplay}}</p>
+      <div class="height-and-weight">
+        <div class="height">
+          <p>Height</p>
+          <p>{{ pokemon?.height | measurement:'height' }}</p>
+        </div>
+        <div class="weight">
+          <p>Weight</p>
+          <p>{{ pokemon?.weight | measurement:'weight'}}</p>
+        </div>
+      </div>
+      <div class="breading-section">
+        <h3>Breeding</h3>
+        <div class="gender">
+          <p class="title">Gender</p>
+          <div class="gender-section">
+            <div class="gender-row"><fa-icon [icon]="faMars" class="gender-fav-mars"></fa-icon> <p>{{distributionCalculationMaleFemale(pokemonSpecies.gender_rate, "male")}}</p></div>
+            <div class="gender-row"><fa-icon [icon]="faVenus" class="gender-fav-venus"></fa-icon> <p>{{distributionCalculationMaleFemale(pokemonSpecies.gender_rate, "female")}}</p></div>
+          </div>
+        </div>
+        <div class="egg-group">
+          <p class="title">Egg Groups</p>
+          <div *ngFor="let pokeEgg of pokemonSpecies.egg_groups">
+            <p class="egg-name">{{pokeEgg.name}} </p>
+          </div>
+        </div>
+        <div class="egg-cycle">
+          <p class="title">Egg Cycle</p>
+          <p>{{pokemonSpecies.hatch_counter}} </p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedIndex ===  1" class="base-stats-section ">
+      <div class="individual-stats" *ngFor="let stat of pokeStats">
+        <p class="title">{{stat.stat.name | baseState}}</p>
+        <p class="stats-number">{{stat.base_stat}}</p>
+        <div class="stats-bar-container">
+          <div class="stats-bar" [ngStyle]="{'width': stat.base_stat + '%', 'background-color': stat.base_stat > 50 ? '#4BC07A' : '#FB6C6C' }"></div>
+        </div>
+      </div>
+      <div class="total-stats">
+        <p class="title">Total</p>
+        <p class="stats-number">{{ totalPMokeStats.base_state_number }}</p>
+        <div class="stats-bar-container">
+          <div class="stats-bar" [ngStyle]="{'width': totalPMokeStats.base_state_calculus + '%', 'background-color':  totalPMokeStats.base_state_calculus > 50 ? '#4BC07A' : '#FB6C6C' }"></div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedIndex ===  2" class="evolution-section">
+      <div *ngIf="pokemonService.evolutionList()">
+        <h2>Evolution Chain</h2>
+        <div class="evolution-container">
+          <div class="evolution-one-to-two">
+            <div class="top-poke-min">
+              <div class="poke-container">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemonService.evolutionList()[0]?.id}}.png"
+                class="pokemon-miniature" alt="{{ pokemonService.evolutionList()[0]?.name }}">
+              </div>
+              <p *ngIf="pokemonService.evolutionList().length > 0">
+                {{ pokemonService.evolutionList()[0]?.name }}
+              </p>
+            </div>
+            <div class="arrow-container">
+              <mat-icon style="color : #ededed">arrow_right_alt</mat-icon>
+              <p style="margin: 0px; font-weight: 900;">Lvl {{ pokemonService.evolutionList()[1]?.evolvMinLevel }}</p>
+            </div>
+            <div class="bottom-poke-min">
+              <div class="poke-container">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemonService.evolutionList()[1]?.id}}.png"
+                class="pokemon-miniature" alt="{{ pokemonService.evolutionList()[1]?.name }}">
+              </div>
+              <p *ngIf="pokemonService.evolutionList().length > 0">
+                {{ pokemonService.evolutionList()[1]?.name }}
+              </p>
+            </div>
+          </div>
+          <div class="evolution-two-to-three">
+            <div class="top-poke-min">
+              <div class="poke-container">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemonService.evolutionList()[1]?.id}}.png"
+                class="pokemon-miniature" alt="{{ pokemonService.evolutionList()[1]?.name }}">
+              </div>
+              <p *ngIf="pokemonService.evolutionList().length > 0">
+                {{ pokemonService.evolutionList()[1]?.name }}
+              </p>
+            </div>
+            <div class="arrow-container">
+              <mat-icon style="color : #ededed">arrow_right_alt</mat-icon>
+              <p style="margin: 0px; font-weight: 900;">Lvl {{ pokemonService.evolutionList()[2]?.evolvMinLevel }}</p>
+            </div>
+            <div class="bottom-poke-min">
+              <div  class="poke-container">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemonService.evolutionList()[2]?.id}}.png"
+                class="pokemon-miniature" alt="{{ pokemonService.evolutionList()[2]?.name }}">
+              </div>
+              <p *ngIf="pokemonService.evolutionList().length > 0">
+                {{ pokemonService.evolutionList()[2]?.name }}
+              </p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  </div>
+</div>

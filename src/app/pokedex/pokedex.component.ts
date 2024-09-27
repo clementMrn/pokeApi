@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonService } from '../service/pokemon.service';
-import { PokemonList } from "../models/pokemon.model";
+import {PokemonUrl, PokemonList} from "../models/pokemon.model";
 import { pokeCardButtonConfig } from "../config/config";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pokedex',
@@ -14,14 +15,19 @@ export class PokedexComponent implements OnInit {
 
   public overlay: boolean = false;
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(public pokemonService: PokemonService, private router: Router) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.pokemonService.getPokemonList().subscribe(data => {
-      this.pokemonList = data;
-      this.isLoading = false;
-    });
+    console.log("this.pokemonList",  this.pokemonList )
+    console.log("this.pokemonService.pokemonList()",  this.pokemonService.pokemonList())
+    this.pokemonService.pokemonList()
+    this.isLoading = this.pokemonService.pokemonList().length === 0;
+
+    setTimeout(() => {
+      console.log("After API call - this.pokemonService.pokemonList()", this.pokemonService.pokemonList());
+      this.isLoading = this.pokemonService.pokemonList().length === 0;
+    }, 1000);
   }
 
   findColor(pokemon: PokemonList): { mainColor: string, darkColor: string, lightColor: string } {
@@ -55,8 +61,7 @@ export class PokedexComponent implements OnInit {
 
   filterPokemon(selectedIds: number[]) {
     this.isLoading = true;
-    const ids = selectedIds.map(id => id);
-    this.pokemonService.getPokemonByIds(ids).subscribe(
+    this.pokemonService.getPokemonByIds(selectedIds).subscribe(
       pokemonList => {
         this.pokemonList = pokemonList;
         this.isLoading = false;
@@ -72,6 +77,11 @@ export class PokedexComponent implements OnInit {
         this.isLoading = false;
       },
     );
+  }
+
+  async goDetails(pokemon: PokemonList) {
+    await this.router.navigate(['/pokedex', pokemon.id], {state: {pokemon}});
+    this.pokemonService.getSelectedPokemon(pokemon);
   }
 }
 
