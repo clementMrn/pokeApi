@@ -4,8 +4,10 @@
 
   <div class="top">
     <div class="arrow-and-fav">
-      <p>flèche</p>
-      <p>fav</p>
+      <mat-icon class="arrow" (click)="goBack()">arrow_back</mat-icon>
+    <!-- <mat-icon class="favorite">favorite</mat-icon> -->
+      <mat-icon  class="favorite" (click)="toggleFavorite()">{{isFavorite === true ? "favorite" : "favorite_border"}}</mat-icon>
+    
     </div>
     <div class="name-and-id">
       <p>{{pokemon?.name}}</p>
@@ -15,7 +17,7 @@
       <div class="type-list">
        <p class="type-list-label"   [ngStyle]="{'background-color': colors.lightColor}"  *ngFor="let type of pokemon?.types">{{type.type.name}}</p>
       </div>
-      <p>TODO ICI</p>
+      <p class="type-pokemon">{{ pokemonService.evolutionList()[0]?.genera }}</p>
     </div>
     <img src="../assets/pokeball-v2.svg" class="pokeball-icon" alt="Pokeball icon">
   </div>

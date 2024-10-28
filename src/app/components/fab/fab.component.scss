@@ -97,6 +97,8 @@
       &.gen-card {
         width: 48%;
         aspect-ratio: 4/3;
+        height: 220px;
+        position: relative;
       }
 
       &.type-card {
@@ -144,13 +146,13 @@
 .hidden {
   transform: translateY(50px);
   opacity: 0;
-  transition: transform 0.2s ease-in, opacity 0.2s ease-in; /* Transition rapide pour disparaître */
+  transition: transform 0.2s ease-in, opacity 0.2s ease-in;
 }
 
 .visible {
   transform: translateY(0);
   opacity: 1;
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out; /* Transition plus lente pour apparaître */
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
 
 .search-container {
@@ -176,4 +178,39 @@
     transform: translateY(-50%);
     font-size: 18px;
   }
+}
+
+.fav-card{
+  width: 45%;
+  margin-bottom: 15px;
+  height: 120px;
+  border-radius: 15px;
+  padding: 25px 15px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pokemon-image {
+  width: 50%;
+  height: 60%;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  object-fit: fill;
+  z-index: 2;
+}
+
+.gen-card-title-fav{
+  position: absolute;
+  left: 20px;
+  bottom: 0px;
+}
+
+.fav-pokemon-img{
+  width: 80%;
+  height: 120px;
+  object-fit: cover;
+  z-index: 3;
 }

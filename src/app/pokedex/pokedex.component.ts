@@ -59,6 +59,12 @@ export class PokedexComponent implements OnInit {
     this.overlay = !this.overlay;
   }
 
+  favoritePokemon() {
+    this.isLoading = true;
+  
+  }
+
+
   filterPokemon(selectedIds: number[]) {
     this.isLoading = true;
     this.pokemonService.getPokemonByIds(selectedIds).subscribe(
@@ -68,6 +74,8 @@ export class PokedexComponent implements OnInit {
       }
     );
   }
+
+
   filterType(selectedIds: string) {
     this.isLoading = true;
     this.pokemonService.getPokemonsByType(selectedIds).subscribe(

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {PokemonDetailsPage, PokemonSpecies} from '../../models/pokemon.model';
+import {PokemonDetailsPage, PokemonSpecies, PokemonList} from '../../models/pokemon.model';
 import { PokemonService } from "../../service/pokemon.service";
 import {buttonDetails, buttonDetailsConfig, pokeCardButtonConfig} from "../../config/config";
+import {Router} from "@angular/router";
 
 import { faVenus } from "@fortawesome/free-solid-svg-icons";
 import { faMars } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +15,7 @@ import {checkPort} from "@angular-devkit/build-angular/src/utils/check-port";
   styleUrls: ['./poke-details.component.scss']
 })
 export class PokeDetailsComponent implements OnInit {
-  public pokemon: PokemonDetailsPage | undefined;
+  public pokemon!: PokemonDetailsPage;
   public faVenus = faVenus;
   public faMars = faMars;
   public pokemonSpecies: PokemonSpecies = {
@@ -60,7 +61,11 @@ export class PokeDetailsComponent implements OnInit {
     {secondEvolvName: string, secondEvolvMinLevel : number},
     {thirdEvolvName: string, thirdEvolvMinLevel : number}
   ];
-  constructor(public pokemonService: PokemonService) {}
+
+
+  public isFavorite: boolean = false;
+
+  constructor(public pokemonService: PokemonService, private router: Router) {}
 
   ngOnInit(): void {
     this.pokemon = history.state.pokemon;
@@ -78,9 +83,7 @@ export class PokeDetailsComponent implements OnInit {
     }
 
 
-    this.selectedIndex = 2;
-
-    console.log("this.pokemon",  this.pokemon);
+    this.selectedIndex = 0;
 
     if (this.pokemon?.species?.url) {
       this.pokemonService.baseRequest(`https://pokeapi.co/api/v2/pokemon-species/${this.pokemon.id}/`).subscribe(
@@ -128,12 +131,16 @@ export class PokeDetailsComponent implements OnInit {
     if(this.pokemon){
       this.pokemonService.getPokeEvolutionChain(this.pokemon?.id);
     }
-    
+
     this.pokeStats = this.pokemon?.stats
 
-    console.log("this.pokeStats", this.pokeStats);
-
     this.totalRateStats(600);
+
+    this.getFavorite(this.pokemon.name)
+  }
+
+  async goBack() {
+    await this.router.navigate(['/pokedex']);
   }
 
   selectButton(index: number) {
@@ -199,13 +206,30 @@ export class PokeDetailsComponent implements OnInit {
     this.totalPMokeStats.base_state_calculus  = ( this.totalPMokeStats.base_state_number / totalStats) * 100;
   }
 
-  generateEvolutionChain () {
 
 
-
-
-
-    // this.pokeEvolutionChain = {}
+  toggleFavorite = () => {
+    this.pokemonService.toggleFavoriteInStorage("favPokemon", this.pokemon);
+    this.isFavorite = !this.isFavorite;
   }
+  
+  getFavorite(pokemonNameToFind: string) {
+    let result = this.pokemonService.getStorage("favPokemon");
+    
+    if (result) {
+      let storageList: PokemonList[] = JSON.parse(result);
+      
+      let pokemonExists = storageList.some(pokemon => pokemon.name === pokemonNameToFind);
+  
+      this.isFavorite = pokemonExists;
+      
+      if (pokemonExists) {
+        console.log(`${pokemonNameToFind} est dans la liste des favoris.`);
+      } else {
+        console.log(`${pokemonNameToFind} n'est pas dans la liste des favoris.`);
+      }
+    }
+}
+
 
 }

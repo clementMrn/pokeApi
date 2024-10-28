@@ -175,5 +175,6 @@ export interface PokemonDetailsPage {
 export interface PokemonEvolutionChain {
   id?: number;  
   name: string; 
-  evolvMinLevel?: number
+  evolvMinLevel?: number;
+  genera?: string;
 }

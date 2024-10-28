@@ -1,5 +1,3 @@
-
-
 <ng-container *ngIf="!isLoading; else loading">
   <div class="mainContainer" [ngClass]="{'overlay-active': overlay}">
     <div class="content">
@@ -36,7 +34,7 @@
       </div>
     </div>
   </div>
-  <app-fab (toggleFABEmiter)="toggleOverlay()" (generationSelected)="filterPokemon($event)" (typeSelected)="filterType($event)"></app-fab>
+  <app-fab (toggleFABEmiter)="toggleOverlay()" (toggleFavFilter)="favoritePokemon()" (generationSelected)="filterPokemon($event)" (typeSelected)="filterType($event)"></app-fab>
 </ng-container>
 
 

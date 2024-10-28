@@ -1,16 +1,21 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { buttonFab, buttonFabConfig } from "../../config/config";
 import { PokemonService } from "../../service/pokemon.service";
-import {PokemonTypeImage, PokemonTypes} from "../../models/pokemon.model";
+import {PokemonTypeImage, PokemonTypes, PokemonList} from "../../models/pokemon.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-fab',
   templateUrl: './fab.component.html',
   styleUrls: ['./fab.component.scss']
 })
+
 export class FabComponent implements OnInit {
   public buttonFabs: buttonFab[] | undefined;
   public isFABVisible: boolean = false;
+
+  public favAction: boolean = false;
+  public favList!: PokemonList[];
 
   public getAllGenAction: boolean = false;
   public allGen: { [key: string]: number[] } = {};
@@ -22,8 +27,6 @@ export class FabComponent implements OnInit {
 
   public getSearchAction: boolean = false;
   public searchResult: string = '';
-
-
 
   private generationOrder = [
     'generation-i',
@@ -45,7 +48,7 @@ export class FabComponent implements OnInit {
 
   @Input() pokemonList : any // TODO enlever le any
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(private pokemonService: PokemonService,  private router: Router) {}
 
   ngOnInit(): void {
     this.buttonFabs = buttonFabConfig;
@@ -54,6 +57,10 @@ export class FabComponent implements OnInit {
   toggleFAB() {
     this.isFABVisible = !this.isFABVisible;
     this.toggleFABEmiter.emit();
+  }
+
+  toggleFavFilter(){
+    this.favAction = !this.favAction;
   }
 
   toggleGenerationFilter(){
@@ -76,6 +83,7 @@ export class FabComponent implements OnInit {
     }  else if (buttonAction === "getAllType") {
       this.getAllType()
     } else {
+      this.getFavorite()
       console.log("getFavorite");
     }
   }
@@ -120,7 +128,11 @@ export class FabComponent implements OnInit {
   }
 
   getFavorite(){
-
+    this.toggleFavFilter()
+    let result = this.pokemonService.getStorage("favPokemon");
+    if(result){
+      this.favList = JSON.parse(result);;
+    }
   }
 
   selectGeneration(generationKey: string): void {
@@ -137,8 +149,6 @@ export class FabComponent implements OnInit {
     this.typeSelected.emit(typeName);
     this.getAllTypeAction = false;
     this.toggleFAB();
-    console.log('this.typeSelected', this.typeSelected)
-    // this.getAllTypeAction = false;
   }
 
   onSearch(event: Event): void {
@@ -147,8 +157,14 @@ export class FabComponent implements OnInit {
     this.pokemonService.searchPokemon(inputElement.value).subscribe(
       (results) => {
         console.log('Pokémons trouvés:', results);
-
       },
     );
   }
+
+  async goDetails(pokemon: PokemonList) {
+    await this.router.navigate(['/pokedex', pokemon.id], {state: {pokemon}});
+    this.pokemonService.getSelectedPokemon(pokemon);
+  }
+
+
 }

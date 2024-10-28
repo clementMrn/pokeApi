@@ -36,6 +36,24 @@
   </div>
 </ng-container>
 
+<ng-container *ngIf="favAction">
+  <div class="gen-filter-container">
+    <div class="gen-filter-bar" (click)="toggleFavFilter()"></div>
+    <p class="gen-filter-title">Favorite</p>
+    <div class="gen-filter-content">
+      <div *ngFor="let favPoke of favList" class="gen-card"  (click)="goDetails(favPoke)">
+        <img src="../assets/pokeball-v2.svg" class="pokeball-img-fab" alt="Pokeball icon">
+        <p class="gen-card-title-fav">{{favPoke.name}}</p>
+        <img 
+               [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + favPoke.id + '.png'"
+               [alt]="'Pokemon ' + favPoke.id"
+               class="fav-pokemon-img">
+      
+      </div>
+    </div>
+  </div>
+</ng-container>
+
 <ng-container *ngIf="getAllTypeAction">
   <div class="gen-filter-container">
     <div class="gen-filter-bar" (click)="toggleTypeFilter()"></div>

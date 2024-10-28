@@ -147,12 +147,19 @@ export class PokemonService {
     .subscribe(speciesData => {
       const evolutionChainUrl = speciesData.evolution_chain?.url;
 
+      const speciesGenus = speciesData.genera.filter((gene: { language: { name: string } }) => gene.language.name === "en");
+
+      let speciesGenusResult = speciesGenus[0].genus;
+
+        console.log("speciesGenus", speciesGenus)
+        console.log("speciesGenus.genus", speciesGenus[0].genus)
+
+      console.log("speciesData", speciesData);
+
       if (!evolutionChainUrl) {
         console.error('Aucune chaîne d\'évolution trouvée pour ce Pokémon.');
         return;
       }
-
-      // Étape 3 : récupérer les données de la chaîne d'évolution
       this.http.get<any>(evolutionChainUrl).subscribe(evolutionData => { // TODO PAS DE ANY
 
         const firstEvolvName = evolutionData.chain?.species?.name || 'Inconnu';
@@ -167,13 +174,12 @@ export class PokemonService {
         const thirdEvolvMinLevel = evolutionData.chain.evolves_to?.[0]?.evolves_to?.[0]?.evolution_details?.[0]?.min_level || 'Niveau inconnu';
 
         const chainObject: PokemonEvolutionChain[] = [
-          { id: firstEvolvId, name: firstEvolvName },
-          { id: secondEvolvId, name: secondEvolvName, evolvMinLevel: secondEvolvMinLevel },
-          { id: thirdEvolvId, name: thirdEvolvName, evolvMinLevel: thirdEvolvMinLevel }
+          { id: firstEvolvId, name: firstEvolvName, genera: speciesGenusResult },
+          { id: secondEvolvId, name: secondEvolvName, evolvMinLevel: secondEvolvMinLevel, genera: speciesGenusResult },
+          { id: thirdEvolvId, name: thirdEvolvName, evolvMinLevel: thirdEvolvMinLevel, genera: speciesGenusResult }
         ];
-
+        
         this.evolutionList.set(chainObject);
-        console.log("Chaîne d'évolution", chainObject);
       });
     });
   
@@ -201,6 +207,29 @@ export class PokemonService {
         }
     }
     return id.length > 0 ? parseInt(id, 10) : 0;
+  }
+
+  toggleFavoriteInStorage(key: string, pokeObj: PokemonList) {
+    const existingFavorites = localStorage.getItem(key);
+    let favoritesArray: PokemonList[] = existingFavorites ? JSON.parse(existingFavorites) : [];
+    
+    // Vérifie si le Pokémon est déjà dans les favoris
+    const exists = favoritesArray.some(fav => fav.id === pokeObj.id);
+    
+    if (exists) {
+      // Si le Pokémon est dans les favoris, le retirer
+      favoritesArray = favoritesArray.filter(fav => fav.id !== pokeObj.id);
+    } else {
+      // Sinon, l'ajouter
+      favoritesArray.push(pokeObj);
+    }
+    
+    // Met à jour les favoris dans le localStorage
+    localStorage.setItem(key, JSON.stringify(favoritesArray));
+  }
+
+  getStorage (key : string){
+    return localStorage.getItem(key);
   }
 
 }
